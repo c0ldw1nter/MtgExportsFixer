@@ -89,6 +89,17 @@ namespace MtgExportsFixer
                                         inputCard.Name = portion.Trim('"').Trim('b').Trim('"').Trim('\'');
                                         //outLine += '"'+portion.Trim('"').Trim('b').Trim('"').Trim('\'')+ '"' + ',';
                                     }
+                                    else
+                                    {
+                                        portion = "";
+                                        while (line[iteration] != ',')
+                                        {
+                                            portion += line[iteration];
+                                            iteration++;
+                                        }
+                                        inputCard.Name = portion;
+                                        iteration++;
+                                    }
                                     break;
                                 default:
                                     portion = "";
@@ -99,6 +110,9 @@ namespace MtgExportsFixer
                                     }
                                     iteration++;
                                     string theVal = portion.Trim('b').Trim('\'');
+                                    if (theVal == "-")
+                                        theVal = "";
+
                                     switch (i)
                                     {
                                         case 2:
@@ -143,8 +157,13 @@ namespace MtgExportsFixer
                     int isFoil = c.Foil.Length > 0 ? 1 : 0;
                     if (c.Printing.ToUpper() == "EO2")
                         c.Printing = "E02";
-                    else if (c.Printing.ToUpper() == "MYS1")
+                    else if (c.Printing.ToUpper() == "MYS1" || c.Printing.ToUpper() == "MYSTOR")
                         c.Printing = "MB1";
+                    else if (c.Printing.ToUpper() == "PSG")
+                        c.Printing = "PLGS";
+
+                    if (c.Language.ToUpper() == "JA")
+                        c.Language = "JP";
 
                     string deckStatsLine = $"{qty},\"{c.Name}\",{isFoil},\"\",\"\",\"{c.Printing}\",\"\",\"{c.Language.ToUpper()}\",\"{c.Condition}\",\"\",\"\"";
                     output.Add(deckStatsLine);
