@@ -68,7 +68,7 @@ namespace MtgExportsFixer
                                     }
                                     else if (line[iteration] == '"')
                                     {
-                                        iteration += 2;
+                                        iteration ++;
                                         portion = "";
                                         bool bracketsOpen = false;
                                         while (iteration < line.Length && line[iteration] != '"')
